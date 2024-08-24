@@ -51,7 +51,7 @@
               </form>
 
               {% if data['type']==1 %}
-              <p>{{data['name'] +" "+ data['score']}}</p>
+              <p>{{data['result']}}</p>
               <img
                 src="{{ url_for('static', filename='image.png') }}"
                 class="img-fluid mb-3"
@@ -90,7 +90,7 @@
                 </button>
               </form>
               {%if data%} {% if data['type']==0 %}
-              <p>{{data['name'] +" "+ data['score']}}</p>
+              <p>{{data['result']}}</p>
               <img
                 src="{{ url_for('static', filename='image.png') }}"
                 class="img-fluid mb-3"

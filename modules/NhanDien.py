@@ -4,9 +4,6 @@ import numpy as np
 
 
 class NhanDien:
-    CAY_DAU = ["Đốm lá góc cạnh", "Rỉ sét", "Khoẻ mạnh"]
-    CAY_NGO = ["Cháy lá", "Rỉ sét thông thường", "Đốm lá xám", "Khoẻ mạnh"]
-    
 
     def __init__(self, model_type):
         self.model_type = model_type
@@ -27,8 +24,6 @@ class NhanDien:
         image = self.preprocess(image).astype('float32')
         input_name = self.model.get_inputs()[0].name
         outputs = self.model.run(None, {input_name: image})[0].flatten()
+        outputs = [int(out*100) for out in outputs]
         print(outputs)
-        idx = np.argmax(outputs)
-        if self.model_type==0:
-            return outputs[idx],self.CAY_DAU[idx]
-        return outputs[idx],self.CAY_NGO[idx]
+        return outputs

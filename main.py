@@ -4,7 +4,8 @@ import os
 from flask import Flask, render_template, request, redirect
 
 app = Flask(__name__)
-
+CAY_DAU = ["Đốm lá góc cạnh", "Rỉ sét", "Khoẻ mạnh"]
+CAY_NGO = ["Cháy lá", "Rỉ sét thông thường", "Đốm lá xám", "Khoẻ mạnh"]
 nhanDienCayDau = NhanDien(model_type=0)
 nhanDienCayNgo = NhanDien(model_type=1)
 
@@ -17,25 +18,40 @@ def cay_ngo():
     save_path = f'static/image.png'
     f.save(save_path)
     image = cv2.imread(save_path)
-    score, name = nhanDienCayNgo.predict(image)
-    score = str(int(score*100))+"%"
+    scores = nhanDienCayNgo.predict(image)
+    score_max = max(scores)
+    max_idx = scores.index(score_max)
+    result = ''
+    if max_idx == 3:
+        result = f"{CAY_NGO[max_idx]} : {score_max}%"
+    else:
+        for i in range(len(scores)-1):
+            result += f"{CAY_NGO[i]} : {scores[i]}%\n"
     response = {'image_path': save_path,
-                'score': score, 'name': name, 'type': 1}
+                'result': result, 'type': 1}
     return render_template('index.html', data=response)
 
 
 @app.route('/cay-dau', methods=['GET', 'POST'])
 def cay_dau():
     if request.method == 'GET':
-        return render_template('indexx.html', data=None)
+        return render_template('index.html', data=None)
     f = request.files['fileDau']
     save_path = f'static/image.png'
     f.save(save_path)
     image = cv2.imread(save_path)
-    score, name = nhanDienCayDau.predict(image)
-    score = str(int(score*100))+"%"
+    scores = nhanDienCayDau.predict(image)
+    score_max = max(scores)
+    max_idx = scores.index(score_max)
+    result = ''
+    if max_idx == 2:
+        result = f"{CAY_DAU[max_idx]} : {score_max}%"
+    else:
+        for i in range(len(scores)-1):
+            result += f"{CAY_DAU[i]} : {scores[i]}%\n"
+
     response = {'image_path': save_path,
-                'score': score, 'name': name, 'type': 0}
+                'result': result, 'type': 0}
     return render_template('index.html', data=response)
 
 
