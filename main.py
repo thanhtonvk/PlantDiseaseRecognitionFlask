@@ -8,7 +8,11 @@ CAY_DAU = ["Đốm lá góc cạnh", "Rỉ sét", "Khoẻ mạnh"]
 CAY_NGO = ["Cháy lá", "Rỉ sét thông thường", "Đốm lá xám", "Khoẻ mạnh"]
 nhanDienCayDau = NhanDien(model_type=0)
 nhanDienCayNgo = NhanDien(model_type=1)
+import base64
 
+def encode_image(image_path):
+    with open(image_path, "rb") as image_file:
+        return base64.b64encode(image_file.read()).decode('utf-8')
 
 @app.route('/cay-ngo', methods=['GET', 'POST'])
 def cay_ngo():
@@ -27,7 +31,8 @@ def cay_ngo():
     else:
         for i in range(len(scores)-1):
             result += f"{CAY_NGO[i]} : {scores[i]}%\n"
-    response = {'image_path': save_path,
+    image_base64 = encode_image(save_path)
+    response = {'image_path': image_base64,
                 'result': result, 'type': 1}
     return render_template('index.html', data=response)
 
@@ -49,8 +54,8 @@ def cay_dau():
     else:
         for i in range(len(scores)-1):
             result += f"{CAY_DAU[i]} : {scores[i]}%\n"
-
-    response = {'image_path': save_path,
+    image_base64 = encode_image(save_path)
+    response = {'image_path': image_base64,
                 'result': result, 'type': 0}
     return render_template('index.html', data=response)
 

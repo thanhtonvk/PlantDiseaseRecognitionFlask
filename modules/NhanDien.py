@@ -25,5 +25,4 @@ class NhanDien:
         input_name = self.model.get_inputs()[0].name
         outputs = self.model.run(None, {input_name: image})[0].flatten()
         outputs = [int(out*100) for out in outputs]
-        print(outputs)
         return outputs

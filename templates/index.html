@@ -50,14 +50,15 @@
                 </button>
               </form>
 
-              {% if data['type']==1 %}
+              {%if data%} {% if data['type']==1 %}
               <p>{{data['result']}}</p>
               <img
-                src="{{ url_for('static', filename='image.png') }}"
-                class="img-fluid mb-3"
-                alt="Hình cây ngô"
+              height="150"
+                src="data:image/jpeg;base64,{{ data['image_path'] }}"
+                alt="img_data"
+                id="imgslot"
               />
-              {% endif %} {%if data%} {% endif %}
+              {% endif %} {% endif %}
             </div>
           </div>
         </div>
@@ -92,9 +93,11 @@
               {%if data%} {% if data['type']==0 %}
               <p>{{data['result']}}</p>
               <img
-                src="{{ url_for('static', filename='image.png') }}"
-                class="img-fluid mb-3"
-                alt="Hình cây ngô"
+              height="150"
+                src="data:image/jpeg;base64,{{ data['image_path'] }}"
+                alt="img_data"
+                id="imgslot"
+              
               />
               {% endif %} {% endif %}
             </div>
