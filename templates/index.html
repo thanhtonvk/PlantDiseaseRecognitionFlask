@@ -105,6 +105,92 @@
         </div>
       </div>
     </div>
+
+    <div class="container mt-5">
+      <div class="row">
+        <!-- Bên trái: Nhận diện bệnh lá cam -->
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-header bg-success text-white">
+              Nhận diện bệnh lá cam
+            </div>
+            <div class="card-body">
+              <form
+                action="/la-cam"
+                method="post"
+                enctype="multipart/form-data"
+              >
+                <div class="form-group">
+                  <label for="cornDiseaseFile"
+                    >Tải lên hình ảnh lá cam:</label
+                  >
+                  <input
+                    name="fileLaCam"
+                    type="file"
+                    class="form-control-file"
+                    id="cornDiseaseFile"
+                  />
+                </div>
+                <button type="submit" class="btn btn-success btn-block">
+                  Dự đoán lá cam
+                </button>
+              </form>
+
+              {%if data%} {% if data['type']==2 %}
+              <p>{{data['result']}}</p>
+              <img
+              height="300"
+                src="data:image/jpeg;base64,{{ data['image_path'] }}"
+                alt="img_data"
+                id="imgslot"
+              />
+              {% endif %} {% endif %}
+            </div>
+          </div>
+        </div>
+
+        <!-- Bên phải: Nhận diện bệnh quả cam -->
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-header bg-warning text-white">
+              Nhận diện bệnh quả cam
+            </div>
+            <div class="card-body">
+              <form
+                action="/qua-cam"
+                method="post"
+                enctype="multipart/form-data"
+              >
+                <div class="form-group">
+                  <label for="beanDiseaseFile"
+                    >Tải lên hình ảnh lá quả cam:</label
+                  >
+                  <input
+                    name="fileQuaCam"
+                    type="file"
+                    class="form-control-file"
+                    id="beanDiseaseFile"
+                  />
+                </div>
+                <button type="submit" class="btn btn-warning btn-block">
+                  Dự đoán quả cam
+                </button>
+              </form>
+              {%if data%} {% if data['type']==3 %}
+              <p>{{data['result']}}</p>
+              <img
+              height="300"
+                src="data:image/jpeg;base64,{{ data['image_path'] }}"
+                alt="img_data"
+                id="imgslot"
+              
+              />
+              {% endif %} {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
   <script
     src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
