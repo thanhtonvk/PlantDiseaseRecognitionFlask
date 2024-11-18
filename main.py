@@ -1,9 +1,10 @@
 from modules.NhanDien import NhanDien
 from modules.NhanDienLaCam import predictLaCam
 from modules.NhanDienQuaCam import predictQuaCam
+from modules.NhanDienCayQue import predictCayQue
 import cv2
 import os
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, jsonify
 from unidecode import unidecode
 
 app = Flask(__name__)
@@ -13,61 +14,62 @@ nhanDienCayDau = NhanDien(model_type=0)
 nhanDienCayNgo = NhanDien(model_type=1)
 import base64
 
+
 def encode_image(image_path):
     with open(image_path, "rb") as image_file:
-        return base64.b64encode(image_file.read()).decode('utf-8')
+        return base64.b64encode(image_file.read()).decode("utf-8")
 
-@app.route('/cay-ngo', methods=['GET', 'POST'])
+
+@app.route("/cay-ngo", methods=["GET", "POST"])
 def cay_ngo():
-    if request.method == 'GET':
-        return render_template('index.html', data=None)
-    f = request.files['fileNgo']
-    save_path = f'static/image.png'
+    if request.method == "GET":
+        return render_template("index.html", data=None)
+    f = request.files["fileNgo"]
+    save_path = f"static/image.png"
     f.save(save_path)
     image = cv2.imread(save_path)
     scores = nhanDienCayNgo.predict(image)
     score_max = max(scores)
     max_idx = scores.index(score_max)
-    result = ''
+    result = ""
     if max_idx == 3:
         result = f"{CAY_NGO[max_idx]} : {score_max}%"
     else:
-        for i in range(len(scores)-1):
+        for i in range(len(scores) - 1):
             result += f"{CAY_NGO[i]} : {scores[i]}%\n"
     image_base64 = encode_image(save_path)
-    response = {'image_path': image_base64,
-                'result': result, 'type': 1}
-    return render_template('index.html', data=response)
+    response = {"image_path": image_base64, "result": result, "type": 1}
+    return render_template("index.html", data=response)
 
 
-@app.route('/cay-dau', methods=['GET', 'POST'])
+@app.route("/cay-dau", methods=["GET", "POST"])
 def cay_dau():
-    if request.method == 'GET':
-        return render_template('index.html', data=None)
-    f = request.files['fileDau']
-    save_path = f'static/image.png'
+    if request.method == "GET":
+        return render_template("index.html", data=None)
+    f = request.files["fileDau"]
+    save_path = f"static/image.png"
     f.save(save_path)
     image = cv2.imread(save_path)
     scores = nhanDienCayDau.predict(image)
     score_max = max(scores)
     max_idx = scores.index(score_max)
-    result = ''
+    result = ""
     if max_idx == 2:
         result = f"{CAY_DAU[max_idx]} : {score_max}%"
     else:
-        for i in range(len(scores)-1):
+        for i in range(len(scores) - 1):
             result += f"{CAY_DAU[i]} : {scores[i]}%\n"
     image_base64 = encode_image(save_path)
-    response = {'image_path': image_base64,
-                'result': result, 'type': 0}
-    return render_template('index.html', data=response)
+    response = {"image_path": image_base64, "result": result, "type": 0}
+    return render_template("index.html", data=response)
 
-@app.route('/la-cam', methods = ['GET', 'POST'])
+
+@app.route("/la-cam", methods=["GET", "POST"])
 def la_cam():
-    if request.method == 'GET':
-        return render_template('index.html', data = None)
-    f = request.files['fileLaCam']
-    save_path = f'static/image.png'
+    if request.method == "GET":
+        return render_template("index.html", data=None)
+    f = request.files["fileLaCam"]
+    save_path = f"static/image.png"
     f.save(save_path)
     image = cv2.imread(save_path)
 
@@ -78,28 +80,38 @@ def la_cam():
     font_scale = 1
     text_color = (0, 0, 255)  # Red color
     text_thickness = 2
-    boxes,classes,scores = predictLaCam(image)
-    result = ''
-    for box,cls,score in zip(boxes,classes, scores):
-        xmin,ymin,xmax,ymax = box
+    boxes, classes, scores = predictLaCam(image)
+    result = ""
+    for box, cls, score in zip(boxes, classes, scores):
+        xmin, ymin, xmax, ymax = box
         top_left = (xmin, ymin)
         bottom_right = (xmax, ymax)
-        cv2.rectangle(image, top_left, bottom_right, rectangle_color, rectangle_thickness)
-        text_position = (xmin, ymin-10)
-        cv2.putText(image, unidecode(cls), text_position, font, font_scale, text_color, text_thickness)
-        result+=f'{cls} - {int(score*100)}% \n'
-    cv2.imwrite(save_path,image)
+        cv2.rectangle(
+            image, top_left, bottom_right, rectangle_color, rectangle_thickness
+        )
+        text_position = (xmin, ymin - 10)
+        cv2.putText(
+            image,
+            unidecode(cls),
+            text_position,
+            font,
+            font_scale,
+            text_color,
+            text_thickness,
+        )
+        result += f"{cls} - {int(score*100)}% \n"
+    cv2.imwrite(save_path, image)
     image_base64 = encode_image(save_path)
-    response = {'image_path': image_base64,
-                'result': result, 'type': 2}
-    return render_template('index.html', data=response) 
-        
-@app.route('/qua-cam', methods = ['GET', 'POST'])
+    response = {"image_path": image_base64, "result": result, "type": 2}
+    return render_template("index.html", data=response)
+
+
+@app.route("/qua-cam", methods=["GET", "POST"])
 def qua_cam():
-    if request.method == 'GET':
-        return render_template('index.html', data = None)
-    f = request.files['fileQuaCam']
-    save_path = f'static/image.png'
+    if request.method == "GET":
+        return render_template("index.html", data=None)
+    f = request.files["fileQuaCam"]
+    save_path = f"static/image.png"
     f.save(save_path)
     image = cv2.imread(save_path)
 
@@ -110,26 +122,101 @@ def qua_cam():
     font_scale = 1
     text_color = (0, 0, 255)  # Red color
     text_thickness = 2
-    boxes,classes,scores = predictQuaCam(image)
-    result = ''
-    for box,cls,score in zip(boxes,classes, scores):
-        xmin,ymin,xmax,ymax = box
+    boxes, classes, scores = predictQuaCam(image)
+    result = ""
+    for box, cls, score in zip(boxes, classes, scores):
+        xmin, ymin, xmax, ymax = box
         top_left = (xmin, ymin)
         bottom_right = (xmax, ymax)
-        cv2.rectangle(image, top_left, bottom_right, rectangle_color, rectangle_thickness)
-        text_position = (xmin, ymin-10)
-        cv2.putText(image, unidecode(cls), text_position, font, font_scale, text_color, text_thickness)
-        result+=f'{cls} - {int(score*100)}% \n'
-    cv2.imwrite(save_path,image)
+        cv2.rectangle(
+            image, top_left, bottom_right, rectangle_color, rectangle_thickness
+        )
+        text_position = (xmin, ymin - 10)
+        cv2.putText(
+            image,
+            unidecode(cls),
+            text_position,
+            font,
+            font_scale,
+            text_color,
+            text_thickness,
+        )
+        result += f"{cls} - {int(score*100)}% \n"
+    cv2.imwrite(save_path, image)
     image_base64 = encode_image(save_path)
-    response = {'image_path': image_base64,
-                'result': result, 'type': 3}
-    return render_template('index.html', data=response) 
+    response = {"image_path": image_base64, "result": result, "type": 3}
+    return render_template("index.html", data=response)
 
-@app.route('/', methods=['GET'])
+
+@app.route("/", methods=["GET"])
 def index():
-    return render_template('index.html', data=None)
+    return render_template("index.html", data=None)
 
 
-if __name__ == '__main__':
+@app.route("/api/cay-ngo", methods=["POST"])
+def api_cay_ngo():
+    f = request.files["image"]
+    save_path = f"static/image.png"
+    f.save(save_path)
+    image = cv2.imread(save_path)
+    scores = nhanDienCayNgo.predict(image)
+    score_max = max(scores)
+    max_idx = scores.index(score_max)
+    result = ""
+    if max_idx == 3:
+        result = f"{CAY_NGO[max_idx]} : {score_max}%"
+    else:
+        for i in range(len(scores) - 1):
+            result += f"{CAY_NGO[i]} : {scores[i]}%\n"
+    return result
+@app.route("/api/cay-dau", methods=["POST"])
+def api_cay_dau():
+    f = request.files["image"]
+    save_path = f"static/image.png"
+    f.save(save_path)
+    image = cv2.imread(save_path)
+    scores = nhanDienCayDau.predict(image)
+    score_max = max(scores)
+    max_idx = scores.index(score_max)
+    result = ""
+    if max_idx == 2:
+        result = f"{CAY_DAU[max_idx]} : {score_max}%"
+    else:
+        for i in range(len(scores) - 1):
+            result += f"{CAY_DAU[i]} : {scores[i]}%\n"
+    return result
+@app.route("/api/la-cam", methods=["POST"])
+def api_la_cam():
+    f = request.files["image"]
+    save_path = f"static/image.png"
+    f.save(save_path)
+    image = cv2.imread(save_path)
+    boxes, classes, scores = predictLaCam(image)
+    result = ""
+    for box, cls, score in zip(boxes, classes, scores):
+        result += f"{cls} - {int(score*100)}% \n"
+    return result
+@app.route("/api/qua-cam", methods=["POST"])
+def api_qua_cam():
+    f = request.files["image"]
+    save_path = f"static/image.png"
+    f.save(save_path)
+    image = cv2.imread(save_path)
+    boxes, classes, scores = predictQuaCam(image)
+    result = ""
+    for box, cls, score in zip(boxes, classes, scores):
+        result += f"{cls} - {int(score*100)}% \n"
+    return result
+@app.route("/api/cay-que", methods=["POST"])
+def api_cay_que():
+    f = request.files["image"]
+    save_path = f"static/image.png"
+    f.save(save_path)
+    image = cv2.imread(save_path)
+    boxes, classes, scores = predictCayQue(image)
+    result = ""
+    for box, cls, score in zip(boxes, classes, scores):
+        result += f"{cls} - {int(score*100)}% \n"
+    return result
+if __name__ == "__main__":
     app.run(debug=True)
