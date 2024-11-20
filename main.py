@@ -148,6 +148,48 @@ def qua_cam():
     return render_template("index.html", data=response)
 
 
+@app.route("/cay-que", methods=["GET", "POST"])
+def cay_que():
+    if request.method == "GET":
+        return render_template("index.html", data=None)
+    f = request.files["fileCayQue"]
+    save_path = f"static/image.png"
+    f.save(save_path)
+    image = cv2.imread(save_path)
+
+    rectangle_color = (0, 255, 0)  # Green color
+    rectangle_thickness = 2
+
+    font = cv2.FONT_HERSHEY_SIMPLEX
+    font_scale = 1
+    text_color = (0, 0, 255)  # Red color
+    text_thickness = 2
+    boxes, classes, scores = predictCayQue(image)
+    result = ""
+    for box, cls, score in zip(boxes, classes, scores):
+        xmin, ymin, xmax, ymax = box
+        top_left = (xmin, ymin)
+        bottom_right = (xmax, ymax)
+        cv2.rectangle(
+            image, top_left, bottom_right, rectangle_color, rectangle_thickness
+        )
+        text_position = (xmin, ymin - 10)
+        cv2.putText(
+            image,
+            unidecode(cls),
+            text_position,
+            font,
+            font_scale,
+            text_color,
+            text_thickness,
+        )
+        result += f"{cls} - {int(score*100)}% \n"
+    cv2.imwrite(save_path, image)
+    image_base64 = encode_image(save_path)
+    response = {"image_path": image_base64, "result": result, "type": 4}
+    return render_template("index.html", data=response)
+
+
 @app.route("/", methods=["GET"])
 def index():
     return render_template("index.html", data=None)
@@ -169,6 +211,8 @@ def api_cay_ngo():
         for i in range(len(scores) - 1):
             result += f"{CAY_NGO[i]} : {scores[i]}%\n"
     return result
+
+
 @app.route("/api/cay-dau", methods=["POST"])
 def api_cay_dau():
     f = request.files["image"]
@@ -185,6 +229,8 @@ def api_cay_dau():
         for i in range(len(scores) - 1):
             result += f"{CAY_DAU[i]} : {scores[i]}%\n"
     return result
+
+
 @app.route("/api/la-cam", methods=["POST"])
 def api_la_cam():
     f = request.files["image"]
@@ -196,6 +242,9 @@ def api_la_cam():
     for box, cls, score in zip(boxes, classes, scores):
         result += f"{cls} - {int(score*100)}% \n"
     return result
+
+
+
 @app.route("/api/qua-cam", methods=["POST"])
 def api_qua_cam():
     f = request.files["image"]
@@ -207,6 +256,8 @@ def api_qua_cam():
     for box, cls, score in zip(boxes, classes, scores):
         result += f"{cls} - {int(score*100)}% \n"
     return result
+
+
 @app.route("/api/cay-que", methods=["POST"])
 def api_cay_que():
     f = request.files["image"]
@@ -218,5 +269,23 @@ def api_cay_que():
     for box, cls, score in zip(boxes, classes, scores):
         result += f"{cls} - {int(score*100)}% \n"
     return result
+
+
+import socket
+
+
+def get_local_ipv4():
+    try:
+        # Tạo kết nối giả để tìm địa chỉ IP thực
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(("8.8.8.8", 80))
+        ipv4 = s.getsockname()[0]
+        s.close()
+        return ipv4
+    except Exception as e:
+        return f"Error: {e}"
+
+
 if __name__ == "__main__":
-    app.run(debug=True)
+    ipv4 = get_local_ipv4()
+    app.run(host=ipv4, port=5000, debug=True)
