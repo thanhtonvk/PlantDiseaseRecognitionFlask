@@ -9,5 +9,5 @@ def predictCayQue(image: np.ndarray):
     cls = result.boxes.cls.cpu().detach().numpy().astype("int")
     classes = [names[i] for i in cls]
     scores = result.boxes.conf.cpu().detach().numpy().astype('float')
-    return boxes, classes, scores
+    return boxes, classes, scores,cls
 

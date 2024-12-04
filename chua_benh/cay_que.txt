@@ -1,0 +1,62 @@
+Sọc tán lá giai đoạn cao
+Giải thích: Bệnh ở giai đoạn nặng, lá cây xuất hiện nhiều sọc lớn, màu vàng hoặc nâu, làm giảm khả năng quang hợp, có thể dẫn đến rụng lá và suy yếu cây.
+Nguyên nhân:
+Nhiễm nấm bệnh (như Colletotrichum hoặc Alternaria).
+Độ ẩm cao, mưa kéo dài và thoát nước kém.
+Cây bị suy yếu do thiếu dinh dưỡng.
+Phương pháp điều trị:
+Loại bỏ lá bị bệnh: Cắt tỉa lá bệnh và tiêu hủy để ngăn lây lan.
+Phun thuốc trừ nấm mạnh: Sử dụng Propiconazole, Mancozeb hoặc Difenoconazole.
+Cải thiện điều kiện vườn: Tăng cường ánh sáng, đảm bảo thoát nước tốt.
+Bón phân: Bổ sung kali và vi lượng để tăng sức đề kháng.
+#
+Sọc tán lá giai đoạn thấp
+Giải thích: Bệnh xuất hiện nhưng ở mức độ nhẹ, chỉ có các sọc nhỏ và ít ảnh hưởng đến cây.
+Nguyên nhân:
+Bắt đầu nhiễm nấm do môi trường ẩm.
+Chăm sóc không đúng kỹ thuật, thiếu vi chất.
+Phương pháp điều trị:
+Phun thuốc phòng bệnh: Sử dụng Copper Oxychloride hoặc dung dịch Bordeaux.
+Giữ lá khô ráo: Hạn chế tưới nước lên lá, đặc biệt vào buổi tối.
+Tăng cường chăm sóc: Bón phân hữu cơ và vi lượng.
+#
+Sọc tán lá giai đoạn trung bình
+Giải thích: Bệnh tiến triển từ nhẹ lên trung bình, các sọc bắt đầu lớn hơn và lan rộng.
+Nguyên nhân:
+Lây lan từ lá bệnh không được loại bỏ.
+Đất thiếu dinh dưỡng hoặc quá ẩm.
+Phương pháp điều trị:
+Phun thuốc trừ nấm: Sử dụng Thiophanate-methyl hoặc Azoxystrobin.
+Loại bỏ lá nhiễm bệnh: Đảm bảo loại bỏ các phần bị bệnh để hạn chế bào tử nấm.
+Cải thiện thông thoáng vườn: Cắt tỉa cây để tăng lưu thông không khí.
+#
+Đốm lá giai đoạn cao
+Giải thích: Các đốm lớn xuất hiện, thường có viền vàng hoặc nâu, gây chết lá và lây lan nhanh sang các cây khác.
+Nguyên nhân:
+Nhiễm nấm Phyllosticta hoặc Cercospora.
+Điều kiện ẩm ướt kéo dài.
+Lá bị tổn thương do sâu bọ hoặc các tác nhân cơ học.
+Phương pháp điều trị:
+Phun thuốc đặc trị: Sử dụng Azoxystrobin hoặc Chlorothalonil.
+Loại bỏ và tiêu hủy lá bệnh: Đặc biệt các lá bị bệnh nặng.
+Bón phân giàu kali: Tăng cường sức đề kháng của cây.
+#
+Đốm lá giai đoạn thấp
+Giải thích: Xuất hiện các đốm nhỏ màu nâu hoặc đen nhưng chưa gây tổn hại nhiều cho cây.
+Nguyên nhân:
+Bắt đầu nhiễm nấm hoặc vi khuẩn.
+Độ ẩm cao hoặc tưới nước không đúng cách.
+Phương pháp điều trị:
+Phun thuốc phòng ngừa: Sử dụng Copper Hydroxide hoặc Zineb.
+Kiểm tra vườn thường xuyên: Loại bỏ các lá nhiễm bệnh sớm.
+Giữ vườn sạch sẽ: Loại bỏ lá rụng và cỏ dại.
+#
+Lá phát hiện giai đoạn trung bình
+Giải thích: Bệnh xuất hiện với mức độ trung bình, lá có dấu hiệu suy yếu hoặc bị tổn thương, nhưng chưa lan rộng.
+Nguyên nhân:
+Nhiễm nấm hoặc vi khuẩn do điều kiện môi trường không thuận lợi.
+Cây bị suy yếu do thiếu dinh dưỡng.
+Phương pháp điều trị:
+Phun thuốc bảo vệ thực vật: Sử dụng Mancozeb hoặc Difenoconazole.
+Tăng cường dinh dưỡng: Bón phân cân đối, bổ sung vi lượng (Bo, Zn, Mg).
+Tăng cường thông gió: Cắt tỉa để giảm mật độ lá.
